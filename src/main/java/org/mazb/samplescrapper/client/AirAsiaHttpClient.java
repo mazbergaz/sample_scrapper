@@ -35,7 +35,7 @@ public class AirAsiaHttpClient {
 	public FlightInfo postToAirAsiaMockup(FlightSearchAirAsiaModel model){
 		FlightInfo result = null;
 		
-		File input = new File("/Users/bimo/Documents/nostratech/cv/wego/test01.html");
+		File input = new File("/Users/bimo/Documents/nostratech/cv/wego/test02.html");
 		try {
 			Document doc = Jsoup.parse(input, "UTF-8");
 			result = getFlightInfo(doc, model);
@@ -105,6 +105,15 @@ public class AirAsiaHttpClient {
 						for(Element rgRow : rgRows){
 							flightDetails.add(getFlightDetail(availabilityIndex, rgRow, model));
 						}
+					}
+				}
+				if(availabilityIndex==0){
+					if(flightInfo.getGoFlightDetails().size()>0){
+						flightInfo.setGoDate(flightInfo.getGoFlightDetails().get(0).getDate());
+					}
+				}else{
+					if(flightInfo.getReturnFlightDetails().size()>0){
+						flightInfo.setReturnDate(flightInfo.getReturnFlightDetails().get(0).getDate());
 					}
 				}
 			}

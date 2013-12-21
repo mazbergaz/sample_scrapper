@@ -16,11 +16,6 @@
 			$(function() {
 				$( "#departureDate" ).datepicker();
 				$( "#arrivalDate" ).datepicker();
-			});
-		</script>
-		
-		<script>
-			$(document).ready(function() {
 			    var adultbox = myform.passengerAdultNum;
 				var kidbox = myform.passengerChildrenNum;
 				var infantbox = myform.passengerInfantNum;
@@ -109,7 +104,7 @@
 			<br/>
 			<label id="msgLabel"/>
 			<br/>
-			<input type="button" value="Submit" onclick="printInputValues(); submit();"/>
+			<input type="button" value="Submit" onclick="submit();"/>
 			
 		</form>
 		
