@@ -45,7 +45,8 @@ public class FlightSearchController {
 	
 	@RequestMapping(value="/result", method=RequestMethod.GET)
 	public String shopListPage(@ModelAttribute("flightInfo") FlightInfo flightInfo){
-		System.out.println("\n\n"+flightInfo.getTripType()+"\n\n");
+		//System.out.println("\n\n"+flightInfo.getTripType()+"\n\n");
+		System.out.println("redirecting to list page.");
 		return "flightList";
 	}
 	

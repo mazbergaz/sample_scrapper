@@ -35,7 +35,6 @@ public class AirAsiaHttpClient {
 	public FlightInfo postToAirAsiaMockup(FlightSearchAirAsiaModel model, File input){
 		FlightInfo result = null;
 		
-		//File input = new File(filename/*"/Users/bimo/Documents/nostratech/cv/wego/test02.html"*/);
 		try {
 			Document doc = Jsoup.parse(input, "UTF-8");
 			result = getFlightInfo(doc, model);
@@ -88,32 +87,26 @@ public class AirAsiaHttpClient {
 	 * @return
 	 */
 	private FlightInfo getFlightInfo(Document responseDoc, FlightSearchAirAsiaModel model){
-		FlightInfo flightInfo = null;
+		FlightInfo flightInfo = new FlightInfo(model.getMarketStructure());
+		try {
+			flightInfo.setGoDate(new SimpleDateFormat("MM/dd/yyyy").parse(model.getDatePicker1()));
+			flightInfo.setReturnDate(new SimpleDateFormat("MM/dd/yyyy").parse(model.getDatePicker2()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		Elements els = responseDoc.select("div.availabilityInputContent");
-		if(els!=null){
-			flightInfo = new FlightInfo(model.getMarketStructure());
-			for(int availabilityIndex=0; availabilityIndex<els.size() ; availabilityIndex++){
-				Element el = els.get(availabilityIndex);
-				// there are only 2 div.availabilityInputContent (0=go(depart) and 1=return)
-				List<FlightDetail> flightDetails = availabilityIndex==0 ? flightInfo.getGoFlightDetails() : flightInfo.getReturnFlightDetails();
-				Elements tables = el.select("table.rgMasterTable");
-				if(tables!=null && tables.size()>0){
-					Element table = tables.first(); //there's only 1 rgMasterTable in a div.availabilityInputContent
-					Elements rgRows = tables.select("tr.rgRow");
-					if(rgRows!=null && rgRows.size()>0){
-						// each row represents a flightDetail
-						for(Element rgRow : rgRows){
-							flightDetails.add(getFlightDetail(availabilityIndex, rgRow, model));
-						}
-					}
-				}
-				if(availabilityIndex==0){
-					if(flightInfo.getGoFlightDetails().size()>0){
-						flightInfo.setGoDate(flightInfo.getGoFlightDetails().get(0).getDate());
-					}
-				}else{
-					if(flightInfo.getReturnFlightDetails().size()>0){
-						flightInfo.setReturnDate(flightInfo.getReturnFlightDetails().get(0).getDate());
+		for (int availabilityIndex = 0; availabilityIndex < els.size(); availabilityIndex++) {
+			Element el = els.get(availabilityIndex);
+			// there are only 2 div.availabilityInputContent (0=go(depart) and 1=return)
+			List<FlightDetail> flightDetails = availabilityIndex == 0 ? flightInfo.getGoFlightDetails() : flightInfo.getReturnFlightDetails();
+			Elements tables = el.select("table.rgMasterTable");
+			if (tables != null && tables.size() > 0) {
+				Element table = tables.first(); // there's only 1 rgMasterTable in a div.availabilityInputContent
+				Elements rgRows = tables.select("tr.rgRow");
+				if (rgRows != null && rgRows.size() > 0) {
+					// each row represents a flightDetail
+					for (Element rgRow : rgRows) {
+						flightDetails.add(getFlightDetail(availabilityIndex, rgRow, model));
 					}
 				}
 			}

@@ -107,27 +107,12 @@
                     <webAppConfig>
                         <contextPath>/samplescrapper</contextPath>
                     </webAppConfig>
-
                     <connectors>
                         <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
                             <port>9080</port>
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>
-                    <useTestClasspath>false</useTestClasspath>
-                    <requestLog implementation="org.eclipse.jetty.server.NCSARequestLog">
-                        <filename>target/yyyy_mm_dd.request.log</filename>
-                        <retainDays>90</retainDays>
-                        <append>true</append>
-                        <extended>false</extended>
-                        <logTimeZone>GMT</logTimeZone>
-                    </requestLog>
-                    <systemProperties>
-                        <systemProperty>
-                            <name>org.apache.commons.logging.Log</name>
-                            <value>org.apache.commons.logging.impl.SimpleLog</value>
-                        </systemProperty>
-                    </systemProperties>
                 </configuration>
                 <dependencies />
             </plugin>
