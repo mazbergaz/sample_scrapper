@@ -12,10 +12,19 @@
 		<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.10.3.custom.css"/>
 		<script src="js/jquery-1.9.1.js"></script>
 		<script src="js/jquery-ui-1.10.3.custom.js"></script>
+		
 		<script>
+			
+			var oriVals;
+			var destVals;
+			var stationMaps = {};
+			
 			$(function() {
+				// set date picker
 				$( "#departureDate" ).datepicker();
 				$( "#arrivalDate" ).datepicker();
+				
+				// set passenger number boxes
 			    var adultbox = myform.passengerAdultNum;
 				var kidbox = myform.passengerChildrenNum;
 				var infantbox = myform.passengerInfantNum;
@@ -29,24 +38,55 @@
 						infantbox.options[i].selected = 'selected';
 					}
 				}
+				
+				oriVals = (function () {
+				    var json = null;
+				    $.ajax({
+				        'async': false,
+				        'global': false,
+				        'url': "js/resources/originVal.json",
+				        'dataType': "json",
+				        'success': function (data) {
+				            json = data;
+				        }
+				    });
+				    return json;
+				})();
+				
+				// set origin options
+				var originbox = myform.origin;
+				originbox.options[0] = new Option(' ', ' ');
+				for(var i=0; i<oriVals.length; i++){
+					for(var j=0; j<oriVals[i].items.length; j++){
+						originbox.options[originbox.options.length] = new Option(oriVals[i].items[j].label, oriVals[i].items[j].value);
+						stationMaps[oriVals[i].items[j].value] = oriVals[i].items[j].label;
+					}
+				}
+				
+				destVals = (function () {
+				    var json = null;
+				    $.ajax({
+				        'async': false,
+				        'global': false,
+				        'url': "js/resources/destinationVal.json",
+				        'dataType': "json",
+				        'success': function (data) {
+				            json = data;
+				        }
+				    });
+				    return json;
+				})();
+				
 			});
-		</script>
-		
-		<script type="text/javascript">
-			 function setOptions(chosen) {
-			 	console.log("chosen = "+chosen);
+			
+			function setOptions(chosen) {
 				var selbox = myform.destination;
 				selbox.options.length = 0;
-				if (chosen == "CGK") {
-				  selbox.options[selbox.options.length] = new Option('Bali (DPS)','DPS');
-				  selbox.options[selbox.options.length] = new Option('Jeddah (JED)','JED');
-				}else if(chosen == "DPS") {
-				  selbox.options[selbox.options.length] = new Option('Jakarta (CGK)','CGK');
-				  selbox.options[selbox.options.length] = new Option('Bandung (BDO)','BDO');
-				}else if(chosen == "JED") {
-				  selbox.options[selbox.options.length] = new Option('Jakarta (CGK)','CGK');
-				}else{
-					
+				for(var i=0; i<destVals[chosen].Routes.length; i++){
+					for(var j=0; j<destVals[chosen].Routes[i].Stations.length; j++){
+						var stationCode = destVals[chosen].Routes[i].Stations[j];
+						selbox.options[selbox.options.length] = new Option(stationMaps[stationCode], stationCode);
+					}
 				}
 			}
 			
@@ -82,18 +122,10 @@
 			<input type="radio" name="tripType" value="OneWay">one way</input>
 			<br/>
 			<label>origin: </label>
-			<select name="origin" size="1" 
-					onchange="setOptions(this.options[this.selectedIndex].value);">
-					<option value=" " selected="selected"> </option>
-					<option value="CGK">Jakarta (CGK)</option>
-					<option value="DPS">Bali (DPS)</option>
-					<option value="JED">Jeddah (JED)</option>
-			</select>
+			<select name="origin" size="1" onchange="setOptions(this.options[this.selectedIndex].value);"></select>
 			<br />
 			<label>destination: </label>
-			<select name="destination" size="1">
-				<option value=" " selected="selected"> </option>
-			</select>
+			<select name="destination" size="1"></select>
 			<br />
 			<p>depart date: <input type="text" id="departureDate" name="departureDate" /></p>
 			<p>return date: <input type="text" id="arrivalDate" name="arrivalDate" /></p>

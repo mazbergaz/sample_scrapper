@@ -32,14 +32,14 @@ public class AirAsiaHttpClient {
 	 * @param model
 	 * @return
 	 */
-	public FlightInfo postToAirAsiaMockup(FlightSearchAirAsiaModel model){
+	public FlightInfo postToAirAsiaMockup(FlightSearchAirAsiaModel model, File input){
 		FlightInfo result = null;
 		
-		File input = new File("/Users/bimo/Documents/nostratech/cv/wego/test02.html");
+		//File input = new File(filename/*"/Users/bimo/Documents/nostratech/cv/wego/test02.html"*/);
 		try {
 			Document doc = Jsoup.parse(input, "UTF-8");
 			result = getFlightInfo(doc, model);
-			System.out.println("\n"+result);
+			//System.out.println("\n"+result);
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -162,7 +162,7 @@ public class AirAsiaHttpClient {
 			flightDetail.setLowFare(getFareDetail(td1));
 			flightDetail.setHiFare(getFareDetail(tds.get(1)));
 		}
-		System.out.println(flightDetail);
+		//System.out.println(flightDetail);
 		return flightDetail;
 	}
 	
@@ -250,7 +250,7 @@ public class AirAsiaHttpClient {
 		model.setMarketStructure(Constants.TripType.ROUNDTRIP);
 		model.setOrigin("CGK");
 		
-		client.postToAirAsiaMockup(model);
+		client.postToAirAsia(model);
 		
 		/*try {
 			Document docget = Jsoup.connect("http://booking.airasia.com/Select.aspx")

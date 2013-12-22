@@ -34,7 +34,7 @@ public class FlightSearchController {
 		FlightInfo flightInfo = null;
 		if(airline.equals("airasia")){
 			FlightSearchAirAsiaModel airAsiaModel = modelConverter.toFlightSearchAirAsiaModel(flightSearchModel);
-			flightInfo = airasiaHttpClient.postToAirAsiaMockup(airAsiaModel);
+			flightInfo = airasiaHttpClient.postToAirAsia(airAsiaModel);
 		}
 		
 		mav.setViewName("redirect:/search/result.html");
