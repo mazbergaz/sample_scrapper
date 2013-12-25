@@ -5,6 +5,8 @@ public interface Constants {
 	public static interface TripType{
 		public static final String ONEWAY = "OneWay";
 		public static final String ROUNDTRIP = "RoundTrip";
+		public static final String M_ONEWAY = "one-way";
+		public static final String M_ROUNDTRIP = "round-trip";
 	}
 	
 	public static interface FareType{

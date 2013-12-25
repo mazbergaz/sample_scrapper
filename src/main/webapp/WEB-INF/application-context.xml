@@ -8,6 +8,12 @@
 	http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<bean id="modelConverter" class="org.mazb.samplescrapper.util.ModelConverter" />
-	<bean id="airasiaHttpClient" class="org.mazb.samplescrapper.client.AirAsiaHttpClient" />
+	<bean id="airasiaWebConverter" class="org.mazb.samplescrapper.util.AirasiaWebConverter" />
+	<bean id="airasiaMobileConverter" class="org.mazb.samplescrapper.util.AirasiaMobileConverter" />
+	
+	<bean id="airasiaHttpClient" class="org.mazb.samplescrapper.client.AirAsiaHttpClient">
+		<property name="airasiaWebConverter" ref="airasiaWebConverter" />
+		<property name="airasiaMobileConverter" ref="airasiaMobileConverter" />
+	</bean>
 
 </beans>

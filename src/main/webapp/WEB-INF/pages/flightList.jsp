@@ -60,7 +60,7 @@
 		    </table>
 		</div>
     	
-    	<c:if test="${flightInfo.tripType eq 'RoundTrip'}">
+    	<c:if test="${flightInfo.tripType eq 'round-trip'}">
     		<div id="returnDiv">
 				<h2>return on ${flightInfo.returnDateStr}</h2>
 				<table>

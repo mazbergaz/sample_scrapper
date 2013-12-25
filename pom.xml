@@ -12,6 +12,9 @@
 		<slf4j.version>1.6.6</slf4j.version>
 		<spring.version>3.1.1.RELEASE</spring.version>
 		<junit.version>4.8.2</junit.version>
+		<gson.version>2.2.4</gson.version>
+		<jsoup.version>1.7.3</jsoup.version>
+		<jstl.version>1.2</jstl.version>
 	</properties>
 
     <dependencies>
@@ -55,22 +58,22 @@
 		<dependency>
 			<groupId>org.jsoup</groupId>
 			<artifactId>jsoup</artifactId>
-			<version>1.7.3</version>
-		</dependency>
-		
-		<!-- JSON PARSER -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>1.7.1</version>
+			<version>${jsoup.version}</version>
 		</dependency>
 		
 		<!-- JSTL -->
 		<dependency>
 	        <groupId>jstl</groupId>
 	        <artifactId>jstl</artifactId>
-	        <version>1.2</version>
+	        <version>${jstl.version}</version>
 	    </dependency>
+	    
+	    <!-- JSON PARSER -->
+	    <dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
+		</dependency>
 		
 	</dependencies>
 

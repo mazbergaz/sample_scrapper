@@ -1,7 +1,5 @@
 package org.mazb.samplescrapper.controller;
 
-import java.util.List;
-
 import org.mazb.samplescrapper.client.AirAsiaHttpClient;
 import org.mazb.samplescrapper.model.FlightInfo;
 import org.mazb.samplescrapper.model.FlightSearchAirAsiaModel;
@@ -11,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -34,7 +31,7 @@ public class FlightSearchController {
 		FlightInfo flightInfo = null;
 		if(airline.equals("airasia")){
 			FlightSearchAirAsiaModel airAsiaModel = modelConverter.toFlightSearchAirAsiaModel(flightSearchModel);
-			flightInfo = airasiaHttpClient.postToAirAsia(airAsiaModel);
+			flightInfo = airasiaHttpClient.postToAirasiaMobile(airAsiaModel);
 		}
 		
 		mav.setViewName("redirect:/search/result.html");
@@ -45,7 +42,6 @@ public class FlightSearchController {
 	
 	@RequestMapping(value="/result", method=RequestMethod.GET)
 	public String shopListPage(@ModelAttribute("flightInfo") FlightInfo flightInfo){
-		//System.out.println("\n\n"+flightInfo.getTripType()+"\n\n");
 		System.out.println("redirecting to list page.");
 		return "flightList";
 	}
